@@ -73,7 +73,7 @@
           v-if="!$v.userData.email.email"
           >Please enter valid email format</span
         >
-        <button @click.prevent="validateForm()">create</button>
+        <button @click.prevent="validateForm">create</button>
         <p class="message">
           Already registered?
           <a href="#" @click.prevent="$emit('loadSignIn')">Sign In</a>
@@ -112,43 +112,44 @@ export default {
       password: {
         required,
         alphaNum,
-        minLength: minLength(6)
+        minLength: minLength(8)
       }
-    },
-    methods: {
-      signUp() {
-        this.$http.post("/user/signup", this.userData).then(
-          () => {
-            this.$emit("loadSignIn");
-            this.$emit("userRegistrationSuccess");
-          },
-          error => {
-            if (error.status === 401) {
-              this.formErrorRespose = error.message;
-            }
-          }
-        );
-      },
-      validateForm() {
-        this.$v.$touch();
-        if (this.$v.$invalid) {
-          // console.error("Sign Up Form is invalid");
-        } else {
-          // do your submit logic here
-          this.signUp();
-        }
-      },
-      clearServerErros() {
-        this.formErrorRespose = "";
-      },
-      resetDataAndValidation() {
-        this.$v.$reset();
-        Object.assign(this.$data, initialState());
-      }
-    },
-    beforeDestroy() {
-      this.resetDataAndValidation();
     }
+  },
+  methods: {
+    signUp() {
+      this.$http.post("/user/signup", this.userData).then(
+        () => {
+          this.$emit("loadSignIn");
+          this.$emit("userRegistrationSuccess");
+        },
+        error => {
+          if (error.status === 401) {
+            this.formErrorRespose = error.message;
+          }
+        }
+      );
+    },
+    validateForm() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        // console.error("Sign Up Form is invalid");
+      } else {
+        // do your submit logic here
+        this.signUp();
+      }
+    },
+
+    resetDataAndValidation() {
+      this.$v.$reset();
+      Object.assign(this.$data, initialState());
+    },
+    clearServerErros() {
+      this.formErrorRespose = "";
+    }
+  },
+  beforeDestroy() {
+    this.resetDataAndValidation();
   }
 };
 </script>

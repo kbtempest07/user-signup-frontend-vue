@@ -28,7 +28,8 @@ export default {
   },
   data() {
     return {
-      componentId: "Login"
+      componentId: "Login",
+      singUpSuccess: false
     };
   },
   methods: {

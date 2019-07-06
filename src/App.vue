@@ -113,4 +113,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.alert-danger {
+  color: #d8000c;
+  background-color: #ffbaba;
+  border: 1.5px solid #d8000c;
+  border-radius: 20px;
+}
 </style>

@@ -79,7 +79,7 @@ function initialState() {
   };
 }
 import { required, minLength, email, alphaNum } from "vuelidate/lib/validators";
-import store from "@/store";
+import { store } from "@/store";
 
 export default {
   data() {
@@ -95,7 +95,7 @@ export default {
       password: {
         required,
         alphaNum,
-        minLength: minLength(6)
+        minLength: minLength(8)
       }
     }
   },
@@ -103,8 +103,8 @@ export default {
     login() {
       this.$http.post(`/user/login`, this.userData).then(
         response => {
-          store.dispatch("customer/setLoginStatus", true);
-          store.dispatch("customer/setJWT", response.data.token);
+          store.dispatch("setLoginStatus", true);
+          store.dispatch("setJWT", response.data.token);
           this.$router.push({
             path: "/profile"
           });
@@ -128,6 +128,9 @@ export default {
     resetDataAndValidation() {
       this.$v.$reset();
       Object.assign(this.$data, initialState());
+    },
+    clearServerErros() {
+      this.formErrorRespose = "";
     }
   }
 };

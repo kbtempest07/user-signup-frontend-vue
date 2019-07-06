@@ -3,7 +3,11 @@ const state = {
   jwtToken: ""
 };
 
-const getters = {};
+const getters = {
+  getJWTToken() {
+    return state.jwtToken;
+  }
+};
 
 const mutations = {
   setLoginStatusMutation: (state, payload) => {
