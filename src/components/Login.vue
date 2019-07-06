@@ -63,6 +63,13 @@
           Not registered?
           <a href="#" @click.prevent="$emit('loadSignUp')">Create an account</a>
         </p>
+        <div
+          class="col-md-6 mb-2 alert alert-danger m-auto"
+          role="alert"
+          v-if="formErrorRespose"
+        >
+          {{ formErrorRespose }}
+        </div>
       </form>
     </div>
   </div>
@@ -80,6 +87,7 @@ function initialState() {
 }
 import { required, minLength, email, alphaNum } from "vuelidate/lib/validators";
 import { store } from "@/store";
+import { setTimeout } from "timers";
 
 export default {
   data() {
@@ -110,8 +118,13 @@ export default {
           });
         },
         error => {
+          // console.error("error:", error);
           if (error.status === 401) {
-            store.dispatch("customer/setLoginStatus", false);
+            store.dispatch("setLoginStatus", false);
+            this.formErrorRespose = error.data.message;
+            setTimeout(() => {
+              this.formErrorRespose = "";
+            }, 3000);
           }
         }
       );
